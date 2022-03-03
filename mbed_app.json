@@ -1,0 +1,13 @@
+{
+    "target_overrides": {
+        "*": {
+            "platform.minimal-printf-enable-floating-point": true,
+            "target.network-default-interface-type": "WIFI",
+            "esp8266.socket-bufsize": "1024",
+            "platform.stdio-buffered-serial": 1,
+            "platform.stdio-convert-newlines": true,
+            "esp8266.provide-default" : false,
+            "target.bootloader_supported"   : true
+        }
+    }
+}
