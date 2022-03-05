@@ -10,7 +10,7 @@
 //Functions
 void CMPS2_read_XYZ();
 void CMPS2_init();
-void CMPS2_set(char reset);
+//void CMPS2_set(char reset);
 float CMPS2_getHeading();
 void CMPS2_decodeHeading(float measured_angle);
 
@@ -57,7 +57,7 @@ void CMPS2_read_XYZ(){
     buf[0] = 0x07;
     buf[1] = 0x01;
     i2compass.write(RWcompasSlaveAddr, buf, 2);
-    ThisThread::sleep_for(8ms);
+    ThisThread::sleep_for(80ms);
 
     //wait for measurement to be completed
     bool flag = false;
@@ -99,38 +99,6 @@ void CMPS2_read_XYZ(){
     for (int i = 0; i < 3; i++) {
         data[i] = 0.48828125 * (float) raw[i];
     }
-
-    /*X = measured_data[0];
-    Y = measured_data[1];
-
-    //correct minimum, mid and maximum values
-    if (measured_data[0] > Max[0]) { //X max
-        Max[0] = measured_data[0];
-    }
-    if (measured_data[0] < Min[0]) { //X min
-        Min[0] = measured_data[0];
-    }
-    if (measured_data[1] > Max[1]) { //Y max
-        Max[1] = measured_data[1];
-    }
-    if (measured_data[1] < Min[1]) { //Y min
-        Min[1] = measured_data[1];
-    }*/
-    /*if (measured_data[2] > Max[2]) { //Z max
-        Max[2] = measured_data[2];
-    }
-    if (measured_data[2] > Max[2]) { //Z max
-        Min[2] = measured_data[2];
-    }*/
-    
-    /*for (int i = 0; i < 2; i++) { //mid
-        Mid[i] = (Max[i] + Min[i]) / 2;
-    }*/
-    
-    // if Z axis is included
-    /*for (int i = 0; i < 3; i++) { //mid
-        Mid[i] = (Max[i] + Min[i]) / 3;
-    }*/
 }
 
 
@@ -145,13 +113,13 @@ void CMPS2_init(){
     buf[0] = 0x07;
     buf[1] = 0x80;
     i2compass.write(RWcompasSlaveAddr, buf, 2);
-    ThisThread::sleep_for(60ms);
+    ThisThread::sleep_for(600ms);
 
 
     buf[0] = 0x07;
     buf[1] = 0x20;
     i2compass.write(RWcompasSlaveAddr, buf, 2);
-    ThisThread::sleep_for(10ms);
+    ThisThread::sleep_for(100ms);
 
     CMPS2_read_XYZ();
     for (int i = 0; i < 3; i++) { //mid
@@ -163,13 +131,13 @@ void CMPS2_init(){
     buf[0] = 0x07;
     buf[1] = 0x80;
     i2compass.write(RWcompasSlaveAddr, buf, 2);
-    ThisThread::sleep_for(60ms);
+    ThisThread::sleep_for(600ms);
 
 
     buf[0] = 0x07;
     buf[1] = 0x40;
     i2compass.write(RWcompasSlaveAddr, buf, 2);
-    ThisThread::sleep_for(10ms);
+    ThisThread::sleep_for(100ms);
 
     CMPS2_read_XYZ();
     for (int i = 0; i < 3; i++) { //mid
@@ -186,39 +154,17 @@ void CMPS2_init(){
     buf[0] = 0x07;
     buf[1] = 0x40;  //SET
     i2compass.write(RWcompasSlaveAddr, buf, 2);
-    ThisThread::sleep_for(10ms);
+    ThisThread::sleep_for(100ms);
 
 
     buf[0] = 0x08;
     buf[1] = 0x00;
     i2compass.write(RWcompasSlaveAddr, buf, 2);
-    ThisThread::sleep_for(10ms);
+    ThisThread::sleep_for(100ms);
 
 }
 
-//sets/resets the sensor, changing the magnetic polarity of the sensing element
-/*void CMPS2_set(char reset){
-    
-    //command internal control register 0 bit 7 (capacitor recharge)
-    buf[0] = 0x07;
-    buf[1] = 0x80;
-    i2compass.write(RWcompasSlaveAddr, buf, 2);
-    ThisThread::sleep_for(50ms);
 
-    if (reset) {
-        //command internal control register 0 bit 6 (reset)
-        buf[0] = 0x07;
-        buf[1] = 0x40;
-        i2compass.write(RWcompasSlaveAddr, buf, 2);
-        ThisThread::sleep_for(10ms);
-    }else{
-        //command internal control register 0 bit 5 (set)
-        buf[0] = 0x07;
-        buf[1] = 0x20;
-        i2compass.write(RWcompasSlaveAddr, buf, 2);
-        ThisThread::sleep_for(10ms);
-    }
-}*/
 
 
 float CMPS2_getHeading(){
