@@ -42,7 +42,7 @@ int main() {
         float measured_angle = CMPS2_getHeading();
         printf("Heading = %f°\t\n", measured_angle);
         CMPS2_decodeHeading(measured_angle);    //get direction
-        ThisThread::sleep_for(200ms);
+        ThisThread::sleep_for(1s);
     }
 }
 
@@ -307,21 +307,25 @@ void CMPS2_decodeHeading(float measured_angle){
     }
     else if (measured_angle > 292.5) {
         printf("North-West\n");
+        
+    }
+    else if (measured_angle > 247.5) {
+        printf("West\n");
     }
     else if (measured_angle > 202.5) {
-      printf("South-West\n");
+        printf("South-West\n");
     }
     else if (measured_angle > 157.5) {
-      printf("South\n");
+        printf("South\n");
     }
     else if (measured_angle > 112.5) {
-      printf("South-East\n");
+        printf("South-East\n");
     }
     else if (measured_angle > 67.5) {
-      printf("East\n");
+        printf("East\n");
     }
     else {
-      printf("North-East\n");
+        printf("North-East\n");
     }
 
 }
